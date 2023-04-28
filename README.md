@@ -38,6 +38,15 @@ To get started, run the following command and _left_ will output a working lette
 left -create
 ```
 
+## Building from source
+
+To build the project from source you first need to [install go](https://go.dev/doc/install).
+
+Then cd into the project root folder and type:
+```
+go build left
+```
+
 ## Tips & Tooling
 
 ### vim
