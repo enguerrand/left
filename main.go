@@ -60,10 +60,16 @@ func printUsage() {
 
 func main() {
 	flag.Usage = printUsage
+	version := flag.Bool("version", false, "ignore all other arguments, print the left version and exit")
 	dumpConfig := flag.Bool("dump-config", false, "dumps the standard config to stdout")
 	customConfig := flag.String("config", "", "custom config file to read from after loading configuration defaults")
 	create := flag.Bool("create", false, "prints a template for a new letter to stdout")
 	flag.Parse()
+
+	if *version {
+		fmt.Println(Version())
+		os.Exit(0)
+	}
 
 	rawConfig, err := loadDefaultConfig(*customConfig)
 	if err != nil {
