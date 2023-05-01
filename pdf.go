@@ -21,6 +21,7 @@ package main
 
 import (
 	"bufio"
+	"embed"
 	"encoding/json"
 	"errors"
 	"github.com/go-pdf/fpdf"
@@ -31,6 +32,9 @@ import (
 )
 
 var sectionSeparationRegex = regexp.MustCompile("^//.*")
+
+//go:embed fonts/*
+var fontsDir embed.FS
 
 type LetterSection int
 
@@ -43,8 +47,15 @@ const (
 )
 
 func render(inputFile string, defaultConfig Config) error {
-	pdf := fpdf.New("P", "mm", "A4", "")
-	tr := pdf.UnicodeTranslatorFromDescriptor("")
+	pdf := fpdf.New("P", "mm", "A4", "") // TODO support importing external fonts
+	bytes, _ := fontsDir.ReadFile("fonts/DejaVuSansCondensed.ttf")
+	pdf.AddUTF8FontFromBytes("dejavu", "", bytes)
+	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedBold.ttf")
+	pdf.AddUTF8FontFromBytes("dejavu", "B", bytes)
+	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedOblique.ttf")
+	pdf.AddUTF8FontFromBytes("dejavu", "I", bytes)
+	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedBoldOblique.ttf")
+	pdf.AddUTF8FontFromBytes("dejavu", "BI", bytes)
 	var text []string
 	var configJson string
 	var subject = ""
@@ -85,17 +96,17 @@ func render(inputFile string, defaultConfig Config) error {
 				*/
 				multiLineSubject = true
 			}
-			subject = tr(line)
+			subject = line
 		case Address:
-			recipient = append(recipient, tr(line))
+			recipient = append(recipient, line)
 		case Body:
 			fallthrough // tolerate config separator in body
 		default:
-			text = append(text, tr(scanner.Text()))
+			text = append(text, scanner.Text())
 		}
 	}
 	for scanner.Scan() {
-		text = append(text, tr(scanner.Text()))
+		text = append(text, scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
 		return err
@@ -110,6 +121,20 @@ func render(inputFile string, defaultConfig Config) error {
 	if jsonParseError != nil {
 		return jsonParseError
 	}
+
+	fontName := utf8Config.FontName
+	var tr func(s string) string
+	if strings.ToLower(fontName) == "dejavu" { // TODO add support for external utf8 fonts
+		tr = func(s string) string {
+			return s
+		}
+	} else {
+		tr = pdf.UnicodeTranslatorFromDescriptor("")
+	}
+
+	trSubject := tr(subject)
+	trRecipient := mapStrings(recipient, tr)
+	trText := mapStrings(text, tr)
 	trSenderName := tr(utf8Config.GetSenderNameOrEmpty())
 	trSignature := tr(utf8Config.GetSignatureOrEmpty())
 	config := Config{
@@ -141,9 +166,9 @@ func render(inputFile string, defaultConfig Config) error {
 
 	// Address
 	pdf.SetFont(config.FontName, "", config.FontSizeAddress)
-	for i := 0; i < len(recipient); i++ {
+	for i := 0; i < len(trRecipient); i++ {
 		pdf.SetX(config.AddressSectionX)
-		pdf.MultiCell(config.AddressSectionW, config.LineHeightAddress, recipient[i], "", "L", false)
+		pdf.MultiCell(config.AddressSectionW, config.LineHeightAddress, trRecipient[i], "", "L", false)
 	}
 
 	pdf.SetFont(config.FontName, "", config.FontSize)
@@ -155,15 +180,15 @@ func render(inputFile string, defaultConfig Config) error {
 	// Subject
 	pdf.SetFont(config.FontName, "B", config.FontSize)
 	pdf.SetXY(config.Margins, config.DateY+config.LineHeight)
-	pdf.MultiCell(0, config.LineHeight, subject, "", "L", false)
+	pdf.MultiCell(0, config.LineHeight, trSubject, "", "L", false)
 	pdf.SetFont(config.FontName, "", config.FontSize)
 
 	pdf.Ln(config.LineHeight)
 
 	// Text
-	for i := 0; i < len(text); i++ {
+	for i := 0; i < len(trText); i++ {
 		pdf.SetX(config.Margins)
-		pdf.MultiCell(0, config.LineHeight, text[i], "", "L", false)
+		pdf.MultiCell(0, config.LineHeight, trText[i], "", "L", false)
 	}
 
 	if config.GetSignatureOrEmpty() != "" {

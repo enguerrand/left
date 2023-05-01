@@ -64,6 +64,7 @@ func main() {
 	dumpConfig := flag.Bool("dump-config", false, "dumps the standard config to stdout")
 	customConfig := flag.String("config", "", "custom config file to read from after loading configuration defaults")
 	create := flag.Bool("create", false, "prints a template for a new letter to stdout")
+
 	flag.Parse()
 
 	if *version {
