@@ -24,6 +24,7 @@ import (
 	"embed"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/go-pdf/fpdf"
 	"os"
 	"path/filepath"
@@ -48,14 +49,19 @@ const (
 
 func render(inputFile string, defaultConfig Config) error {
 	pdf := fpdf.New("P", "mm", "A4", "") // TODO support importing external fonts
-	bytes, _ := fontsDir.ReadFile("fonts/DejaVuSansCondensed.ttf")
-	pdf.AddUTF8FontFromBytes("dejavu", "", bytes)
-	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedBold.ttf")
-	pdf.AddUTF8FontFromBytes("dejavu", "B", bytes)
-	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedOblique.ttf")
-	pdf.AddUTF8FontFromBytes("dejavu", "I", bytes)
-	bytes, _ = fontsDir.ReadFile("fonts/DejaVuSansCondensedBoldOblique.ttf")
-	pdf.AddUTF8FontFromBytes("dejavu", "BI", bytes)
+
+	utf8Fonts := []string{"dejavusanscondensed", "freeserif"}
+	for _, family := range utf8Fonts {
+		bytes, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s/base.ttf", family))
+		pdf.AddUTF8FontFromBytes(family, "", bytes)
+		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/bold.ttf", family))
+		pdf.AddUTF8FontFromBytes(family, "B", bytes)
+		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/italic.ttf", family))
+		pdf.AddUTF8FontFromBytes(family, "I", bytes)
+		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/bolditalic.ttf", family))
+		pdf.AddUTF8FontFromBytes(family, "BI", bytes)
+	}
+
 	var text []string
 	var configJson string
 	var subject = ""
@@ -124,7 +130,7 @@ func render(inputFile string, defaultConfig Config) error {
 
 	fontName := utf8Config.FontName
 	var tr func(s string) string
-	if strings.ToLower(fontName) == "dejavu" { // TODO add support for external utf8 fonts
+	if Contains(utf8Fonts, strings.ToLower(fontName)) { // TODO add support for external utf8 fonts
 		tr = func(s string) string {
 			return s
 		}

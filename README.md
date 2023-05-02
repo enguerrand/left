@@ -9,6 +9,7 @@ Hence the name _left_ as in "LEtter From Txt".
 
 _left_ is licensed under the [GPL, version 3](LICENSE).  
 _left_ uses [go-fpdf](https://github.com/go-pdf/fpdf) to render PDF files, which is licensed under the [MIT license](https://github.com/go-pdf/fpdf/blob/main/LICENSE)
+Some UTF8 TrueType fonts are included with left. See THIRD_PARTY_LICENSES for details
 
 ## Usage
 
@@ -33,13 +34,15 @@ left -dump-config
 ## Creating letters
 
 As stated above, _left_ creates letters from simple text input files.
-To get started, run the following command and _left_ will output a workigng letter input file to stdout:
+To get started, run the following command and _left_ will output a working letter input file to stdout:
 ```
 left -create
 ```
 
-Note that letter files are expected to be encoded in utf-8. However, only one true utf8 font is available (dejavu).
-So if you want to use special characters that are not rendered correctly, try to use the dejavu font.
+Note that letter files are expected to be encoded in utf-8. However, only two true utf8 fonts are available:
+- DejaVuSansCondensed
+- FreeSerif
+So if you want to use special characters that are not rendered correctly, try to use one of these.
 
 For all other fonts the input files are first converted to iso8859-1 encoding, which might lead to some loss of information 
 but is probably okay for most use cases.

@@ -66,7 +66,7 @@ func (c Config) GetSignatureOrEmpty() string {
 }
 
 var defaultConfig = Config{
-	FontName:          "dejavu",
+	FontName:          "dejavusanscondensed",
 	FontSize:          12,
 	FontSizeSender:    7,
 	FontSizeAddress:   10,

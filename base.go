@@ -26,3 +26,12 @@ func mapStrings(input []string, mapper func(string) string) []string {
 	}
 	return output
 }
+
+func Contains[T comparable](array []T, element T) bool {
+	for _, v := range array {
+		if v == element {
+			return true
+		}
+	}
+	return false
+}
