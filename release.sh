@@ -2,21 +2,18 @@
 set -euo pipefail
 
 function print_usage(){
-    echo "Usage: $(basename $0) version"
+    echo "Usage: $(basename $0)"
 }
 function abort(){
     echo "Error: $*" >&2
     exit 1
 }
 
-[ $# -lt 1 ]  && abort "Missing mandatory arg version"
-
-version="${1}"
-pwd
 export GOOARCH="amd64"
 cd "$(dirname "${0}")"
-echo "${version}" > dynamic-assets/version.txt
 rm -rf build/*
+go generate
+version="$(cat dynamic-assets/version.txt)"
 for target in {linux,windows}; do
     out="build/${target}/left/"
     mkdir -p ${out}
