@@ -19,7 +19,7 @@
  */
 package main
 
-func mapStrings(input []string, mapper func(string) string) []string {
+func MapStrings(input []string, mapper func(string) string) []string {
 	output := make([]string, len(input))
 	for i := 0; i < len(input); i++ {
 		output[i] = mapper(input[i])

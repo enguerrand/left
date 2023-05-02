@@ -139,8 +139,8 @@ func render(inputFile string, defaultConfig Config) error {
 	}
 
 	trSubject := tr(subject)
-	trRecipient := mapStrings(recipient, tr)
-	trText := mapStrings(text, tr)
+	trRecipient := MapStrings(recipient, tr)
+	trText := MapStrings(text, tr)
 	trSenderName := tr(utf8Config.GetSenderNameOrEmpty())
 	trSignature := tr(utf8Config.GetSignatureOrEmpty())
 	config := Config{
@@ -157,7 +157,7 @@ func render(inputFile string, defaultConfig Config) error {
 		utf8Config.Margins,
 		tr(utf8Config.DatePrefix),
 		tr(utf8Config.Date),
-		mapStrings(utf8Config.Sender, tr),
+		MapStrings(utf8Config.Sender, tr),
 		&trSenderName,
 		&trSignature,
 	}
