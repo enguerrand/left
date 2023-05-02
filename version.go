@@ -23,6 +23,8 @@ import (
 	"embed"
 )
 
+//go:generate bash dynamic-assets/update.sh
+
 //go:embed dynamic-assets/*
 var dynamicAssets embed.FS
 
