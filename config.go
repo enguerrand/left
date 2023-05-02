@@ -29,8 +29,15 @@ import (
 	"time"
 )
 
+type FontImport struct {
+	Name         string
+	Directory    string
+	FontFileName string
+}
+
 type Config struct {
 	FontName          string
+	FontImport        *FontImport
 	FontSize          float64
 	FontSizeSender    float64
 	FontSizeAddress   float64

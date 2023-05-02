@@ -8,8 +8,8 @@ Hence the name _left_ as in "LEtter From Txt".
 ## License
 
 _left_ is licensed under the [GPL, version 3](LICENSE).  
-_left_ uses [go-fpdf](https://github.com/go-pdf/fpdf) to render PDF files, which is licensed under the [MIT license](https://github.com/go-pdf/fpdf/blob/main/LICENSE)
-Some UTF8 TrueType fonts are included with left. See THIRD_PARTY_LICENSES for details
+_left_ uses [go-fpdf](https://github.com/go-pdf/fpdf) to render PDF files, which is licensed under the [MIT license](https://github.com/go-pdf/fpdf/blob/main/LICENSE).  
+Some UTF8 TrueType fonts are included with left. See THIRD_PARTY_LICENSES for details.
 
 ## Usage
 
@@ -41,11 +41,25 @@ left -create
 
 Note that letter files are expected to be encoded in utf-8. However, only two true utf8 fonts are available:
 - DejaVuSansCondensed
-- FreeSerif
+- FreeSerif  
+
 So if you want to use special characters that are not rendered correctly, try to use one of these.
 
-For all other fonts the input files are first converted to iso8859-1 encoding, which might lead to some loss of information 
+For the core fonts embedded in go-fpdf the input files are first converted to iso8859-1 encoding, which might lead to some loss of information 
 but is probably okay for most use cases.
+
+You can also import your own font. The following config section achieves this for noto fonts on my laptop (running linux):
+```
+{
+  "FontName": "noto",
+  "FontImport": {
+    "Name": "noto",
+    "Directory": "/usr/share/fonts/noto",
+    "FontFileName": "NotoSans-Condensed.ttf",
+  },
+  ...
+}
+```
 
 ## Building from source
 

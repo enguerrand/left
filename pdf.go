@@ -48,7 +48,7 @@ const (
 )
 
 func render(inputFile string, defaultConfig Config) error {
-	pdf := fpdf.New("P", "mm", "A4", "") // TODO support importing external fonts
+	pdf := fpdf.New("P", "mm", "A4", "")
 
 	utf8Fonts := []string{"dejavusanscondensed", "freeserif"}
 	for _, family := range utf8Fonts {
@@ -128,9 +128,18 @@ func render(inputFile string, defaultConfig Config) error {
 		return jsonParseError
 	}
 
+	if utf8Config.FontImport != nil {
+		fontImport := *utf8Config.FontImport
+		pdf.SetFontLocation(fontImport.Directory)
+		for _, styleString := range []string{"", "B", "I", "BI"} {
+			pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileName)
+		}
+		utf8Fonts = append(utf8Fonts, fontImport.Name)
+	}
+
 	fontName := utf8Config.FontName
 	var tr func(s string) string
-	if Contains(utf8Fonts, strings.ToLower(fontName)) { // TODO add support for external utf8 fonts
+	if Contains(utf8Fonts, strings.ToLower(fontName)) {
 		tr = func(s string) string {
 			return s
 		}
@@ -145,6 +154,7 @@ func render(inputFile string, defaultConfig Config) error {
 	trSignature := tr(utf8Config.GetSignatureOrEmpty())
 	config := Config{
 		utf8Config.FontName,
+		utf8Config.FontImport,
 		utf8Config.FontSize,
 		utf8Config.FontSizeSender,
 		utf8Config.FontSizeAddress,
