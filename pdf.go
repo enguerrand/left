@@ -47,19 +47,26 @@ const (
 	Body          LetterSection = iota
 )
 
+func addEmbeddedFont(pdf *fpdf.Fpdf, family string) {
+	bytes, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s.ttf", family))
+	for _, style := range []string{"", "B", "I", "BI"} {
+		pdf.AddUTF8FontFromBytes(family, style, bytes)
+	}
+}
+
+func addExternalFont(pdf *fpdf.Fpdf, fontImport FontImport) {
+	pdf.SetFontLocation(fontImport.Directory)
+	for _, styleString := range []string{"", "B", "I", "BI"} {
+		pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileName)
+	}
+}
+
 func render(inputFile string, defaultConfig Config) error {
 	pdf := fpdf.New("P", "mm", "A4", "")
 
 	utf8Fonts := []string{"dejavusanscondensed", "freeserif"}
 	for _, family := range utf8Fonts {
-		bytes, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s/base.ttf", family))
-		pdf.AddUTF8FontFromBytes(family, "", bytes)
-		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/bold.ttf", family))
-		pdf.AddUTF8FontFromBytes(family, "B", bytes)
-		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/italic.ttf", family))
-		pdf.AddUTF8FontFromBytes(family, "I", bytes)
-		bytes, _ = fontsDir.ReadFile(fmt.Sprintf("fonts/%s/bolditalic.ttf", family))
-		pdf.AddUTF8FontFromBytes(family, "BI", bytes)
+		addEmbeddedFont(pdf, family)
 	}
 
 	var text []string
@@ -129,12 +136,8 @@ func render(inputFile string, defaultConfig Config) error {
 	}
 
 	if utf8Config.FontImport != nil {
-		fontImport := *utf8Config.FontImport
-		pdf.SetFontLocation(fontImport.Directory)
-		for _, styleString := range []string{"", "B", "I", "BI"} {
-			pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileName)
-		}
-		utf8Fonts = append(utf8Fonts, fontImport.Name)
+		addExternalFont(pdf, *utf8Config.FontImport)
+		utf8Fonts = append(utf8Fonts, utf8Config.FontImport.Name)
 	}
 
 	fontName := utf8Config.FontName
