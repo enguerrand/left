@@ -1,0 +1,27 @@
+{
+  "FontName": "someFontName",
+  "FontImport": {
+    "Name": "myfont",
+    "Directory": "/usr/share/fonts/myfont",
+    "FontFileName": "MyFont-Condensed.ttf"
+  },
+  "FontSize": 42,
+  "FontSizeSender": 43,
+  "FontSizeAddress": 44,
+  "LineHeight": 45,
+  "LineHeightAddress": 46,
+  "AddressSectionX": 47,
+  "AddressSectionY": 48,
+  "AddressSectionW": 49,
+  "DateY": 50,
+  "Margins": 51,
+  "DatePrefix": "My Hometown, ",
+  "Date": "24/05/2023",
+  "Sender": [
+    "Darth Vader",
+    "Palace District with Special Chars äüößéç",
+    "Coruscant"
+  ],
+  "SenderName": "Darth Vader",
+  "Signature": "/home/dvader/documents/Signature.jpg"
+}

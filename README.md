@@ -55,7 +55,7 @@ You can also import your own font. The following config section achieves this fo
   "FontImport": {
     "Name": "noto",
     "Directory": "/usr/share/fonts/noto",
-    "FontFileName": "NotoSans-Condensed.ttf",
+    "FontFileName": "NotoSans-Condensed.ttf"
   },
   ...
 }
