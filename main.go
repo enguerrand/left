@@ -72,7 +72,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	rawConfig, err := loadDefaultConfig(*customConfig)
+	loadedDefaultConfig, err := loadDefaultConfig(*customConfig)
 	if err != nil {
 		abort(err.Error(), false)
 	}
@@ -82,12 +82,12 @@ func main() {
 	} else if *create && len(remainingArgs) > 0 {
 		abort("flag -create is incompatible with positional arguments!", true)
 	} else if *create {
-		emptyLetter, err := createEmptyLetter(rawConfig)
+		emptyLetter, err := createEmptyLetter(loadedDefaultConfig)
 		if err == nil {
 			fmt.Println(emptyLetter)
 		}
 	} else if *dumpConfig {
-		configDump, err := printConfiguration(rawConfig)
+		configDump, err := printConfiguration(loadedDefaultConfig)
 		if err == nil {
 			fmt.Println(configDump)
 		}
@@ -97,7 +97,7 @@ func main() {
 			abort("Missing arguments.", true)
 		}
 		inputFile := remainingArgs[0]
-		err = render(inputFile, rawConfig)
+		err = render(inputFile, loadedDefaultConfig)
 	}
 	if err != nil {
 		abort(err.Error(), false)
