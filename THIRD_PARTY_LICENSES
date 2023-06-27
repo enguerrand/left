@@ -26,5 +26,9 @@ SOFTWARE.
 
 Included fonts
 ============================================
-DejaVuSansCondensed -> MIT License, taken from go-fpdf project
-FreeSerif           -> GPL, downloaded from https://fonts2u.com/
+DejaVuSansCondensed    -> MIT License, taken from go-fpdf project
+FreeSerif              -> GPL, downloaded from https://fonts2u.com/
+
+Fonts used for testing purposes
+============================================
+Noto                   -> SIL Open Font License & Apache License

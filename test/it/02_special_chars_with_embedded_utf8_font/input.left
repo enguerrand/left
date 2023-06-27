@@ -1,0 +1,35 @@
+// Config 
+{
+  "FontName": "dejavusanscondensed",
+  "FontImport": null,
+  "FontSize": 12,
+  "FontSizeSender": 7,
+  "FontSizeAddress": 10,
+  "LineHeight": 8,
+  "LineHeightAddress": 6,
+  "AddressSectionX": 22,
+  "AddressSectionY": 62,
+  "AddressSectionW": 58,
+  "DateY": 100,
+  "Margins": 22,
+  "DatePrefix": "Äöü ßity, ",
+  "Date": "01.06.2023",
+  "Sender": [
+    "T. Guy Whowrote",
+    "Right Here",
+    "12345 Äöü ßity"
+  ],
+  "SenderName": "The Guy Who Wrote ßis",
+  "Signature": "./test/it/Signature.jpg"
+}
+// address
+Mr Random Guy
+Irrelevant Street 42
+Somewhere ßity
+// subject
+Just ä dummy for the purpose of testing
+// body
+Lorem ipsum dolor sit amet, 
+
+ces histoires d'encodage sont vraiment extrêmement ennuyeuses - äåéëüúíóö«áßðïœø¶æœ©®bñµç¹²³¤€’
+
