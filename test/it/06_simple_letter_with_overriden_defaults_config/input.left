@@ -1,0 +1,34 @@
+// Config 
+{
+  "FontName": "freeserif",
+  "FontImport": null,
+  "FontSize": 15,
+  "FontSizeSender": 11,
+  "FontSizeAddress": 14,
+  "LineHeight": 10,
+  "LineHeightAddress": 8,
+  "AddressSectionX": 120,
+  "AddressSectionY": 40,
+  "AddressSectionW": 80,
+  "DateY": 80,
+  "Margins": 10,
+  "DatePrefix": "Duckburg, ",
+  "Sender": [
+    "D. Duck",
+    "13 Quack street",
+    "Duckburg, Calisota"
+  ],
+  "SenderName": "D. Duck",
+  "Signature": "./test/it/Signature2.jpg",
+  "Date": "02.06.2023"
+}
+// address
+Daisy Duck
+42 Quack street
+Duckburg, Calilsota
+// subject
+Hey Daisy!
+// body
+Redacted to respect Donald's and Daisy's privacy!
+
+Sincerely,
