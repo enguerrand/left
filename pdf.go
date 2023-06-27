@@ -48,9 +48,13 @@ const (
 )
 
 func addEmbeddedFont(pdf *fpdf.Fpdf, family string) {
-	bytes, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s.ttf", family))
-	for _, style := range []string{"", "B", "I", "BI"} {
-		pdf.AddUTF8FontFromBytes(family, style, bytes)
+	regular, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s/regular.ttf", family))
+	for _, style := range []string{"", "I"} {
+		pdf.AddUTF8FontFromBytes(family, style, regular)
+	}
+	bold, _ := fontsDir.ReadFile(fmt.Sprintf("fonts/%s/bold.ttf", family))
+	for _, style := range []string{"B", "BI"} {
+		pdf.AddUTF8FontFromBytes(family, style, bold)
 	}
 }
 
