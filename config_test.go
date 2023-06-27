@@ -56,6 +56,7 @@ func TestReadFullConfigFromFile(t *testing.T) {
 	AssertEquals(t, read.FontImport.Name, "myfont", "FontImport.Name")
 	AssertEquals(t, read.FontImport.Directory, "/usr/share/fonts/myfont", "FontImport.Directory")
 	AssertEquals(t, read.FontImport.FontFileName, "MyFont-Condensed.ttf", "FontImport.FontFileName")
+	AssertEquals(t, read.FontImport.FontFileNameBold, "MyFont-CondensedBold.ttf", "FontImport.FontFileNameBold")
 	AssertEquals(t, read.FontSize, float64(42), "FontSize")
 	AssertEquals(t, read.FontSizeSender, float64(43), "FontSizeSender")
 	AssertEquals(t, read.FontSizeAddress, float64(44), "FontSizeAddress")
@@ -73,6 +74,16 @@ func TestReadFullConfigFromFile(t *testing.T) {
 	AssertEquals(t, read.Sender[2], "Coruscant", "read.Sender[2]")
 	AssertEquals(t, *read.SenderName, "Darth Vader", "read.SenderName")
 	AssertEquals(t, *read.Signature, "/home/dvader/documents/Signature.jpg", "read.Signature")
+}
+
+func TestReadConfigWithoutBoldFromFile(t *testing.T) {
+	read := Config{}
+	_ = loadConfigFromFile("./test/config/valid_config_full_no_bold_font.json", &read)
+	AssertEquals(t, read.FontName, "someFontName", "FontName")
+	AssertEquals(t, read.FontImport.Name, "myfont", "FontImport.Name")
+	AssertEquals(t, read.FontImport.Directory, "/usr/share/fonts/myfont", "FontImport.Directory")
+	AssertEquals(t, read.FontImport.FontFileName, "MyFont-Condensed.ttf", "FontImport.FontFileName")
+	AssertEquals(t, read.FontImport.FontFileNameBold, "", "FontImport.FontFileNameBold")
 }
 
 func AssertEquals(t *testing.T, got any, want any, description string) {

@@ -30,9 +30,10 @@ import (
 )
 
 type FontImport struct {
-	Name         string
-	Directory    string
-	FontFileName string
+	Name             string
+	Directory        string
+	FontFileName     string
+	FontFileNameBold string
 }
 
 type Config struct {

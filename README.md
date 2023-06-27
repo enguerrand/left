@@ -55,11 +55,14 @@ You can also import your own font. The following config section achieves this fo
   "FontImport": {
     "Name": "noto",
     "Directory": "/usr/share/fonts/noto",
-    "FontFileName": "NotoSans-Condensed.ttf"
+    "FontFileName": "NotoSans-Condensed.ttf",
+    "FontFileNameBold": "NotoSans-CondensedBold.ttf"
   },
   ...
 }
 ```
+Note: Specifying font files for italic fonts is not possible as there currently is no way to make _left_ actually want to use italic fonts.  
+Bold font is only (automatically) used for the letter's subject line. 
 
 ## Building from source
 

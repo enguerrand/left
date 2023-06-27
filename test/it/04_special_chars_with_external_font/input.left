@@ -4,7 +4,8 @@
   "FontImport": {
     "Name": "noto",
     "Directory": "./test/fonts/",
-    "FontFileName": "NotoSans-Condensed.ttf"
+    "FontFileName": "NotoSans-Condensed.ttf",
+    "FontFileNameBold": "NotoSans-CondensedBold.ttf"
   },
   "FontSize": 12,
   "FontSizeSender": 7,

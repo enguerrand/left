@@ -57,7 +57,11 @@ func addEmbeddedFont(pdf *fpdf.Fpdf, family string) {
 func addExternalFont(pdf *fpdf.Fpdf, fontImport FontImport) {
 	pdf.SetFontLocation(fontImport.Directory)
 	for _, styleString := range []string{"", "B", "I", "BI"} {
-		pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileName)
+		if fontImport.FontFileNameBold != "" && (styleString == "B" || styleString == "BI") {
+			pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileNameBold)
+		} else {
+			pdf.AddUTF8Font(fontImport.Name, styleString, fontImport.FontFileName)
+		}
 	}
 }
 

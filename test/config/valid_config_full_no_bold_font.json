@@ -3,8 +3,7 @@
   "FontImport": {
     "Name": "myfont",
     "Directory": "/usr/share/fonts/myfont",
-    "FontFileName": "MyFont-Condensed.ttf",
-    "FontFileNameBold": "MyFont-CondensedBold.ttf"
+    "FontFileName": "MyFont-Condensed.ttf"
   },
   "FontSize": 42,
   "FontSizeSender": 43,
