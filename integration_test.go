@@ -39,10 +39,14 @@ func TestAllReferencePdfs(t *testing.T) {
 		if file.IsDir() {
 			outfile := filepath.Join(resDir, file.Name(), "input.pdf")
 			reference := filepath.Join(resDir, file.Name(), "reference.pdf")
+			defaultConfig := filepath.Join(resDir, file.Name(), "defaults.json")
 			_ = os.Remove(outfile)
 			inputFile := filepath.Join(resDir, file.Name(), "input.left")
 			f := false
 			customConfig := ""
+			if _, err := os.Stat(defaultConfig); err == nil {
+				customConfig = defaultConfig
+			}
 			Run(&customConfig, &f, &f, []string{inputFile})
 
 			cmd := exec.Command("diff-pdf", outfile, reference)
