@@ -1,0 +1,38 @@
+// Config 
+{
+  "FontName": "dejavusanscondensed",
+  "FontImport": null,
+  "FontSize": 12,
+  "FontSizeSender": 7,
+  "FontSizeAddress": 10,
+  "LineHeight": 8,
+  "LineHeightAddress": 6,
+  "AddressSectionX": 22,
+  "AddressSectionY": 62,
+  "AddressSectionW": 58,
+  "DateY": 100,
+  "Margins": 22,
+  "DatePrefix": "Center City, ",
+  "Date": "01.06.2023",
+  "Sender": [
+    "T. Guy Whowrote",
+    "Right Here",
+    "12345 Center City"
+  ],
+  "SenderName": "The Guy Who Wrote This",
+  "Signature": "./test/it/Signature.jpg"
+}
+// address
+Mr Random Guy
+Irrelevant Street 42
+Somewhere City
+// subject
+Just a dummy for the purpose of testing
+// body
+Lorem ipsum dolor sit amet, 
+
+consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

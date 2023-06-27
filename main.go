@@ -58,25 +58,11 @@ func printUsage() {
 	flag.PrintDefaults()
 }
 
-func main() {
-	flag.Usage = printUsage
-	version := flag.Bool("version", false, "ignore all other arguments, print the left version and exit")
-	dumpConfig := flag.Bool("dump-config", false, "dumps the standard config to stdout")
-	customConfig := flag.String("config", "", "custom config file to read from after loading configuration defaults")
-	create := flag.Bool("create", false, "prints a template for a new letter to stdout")
-
-	flag.Parse()
-
-	if *version {
-		fmt.Println(Version())
-		os.Exit(0)
-	}
-
+func Run(customConfig *string, dumpConfig *bool, create *bool, remainingArgs []string) {
 	loadedDefaultConfig, err := loadDefaultConfig(*customConfig)
 	if err != nil {
 		abort(err.Error(), false)
 	}
-	remainingArgs := os.Args[len(os.Args)-flag.NArg():]
 	if *dumpConfig && *create {
 		abort("flags -dump-config and -create are mutually exclusive!", true)
 	} else if *create && len(remainingArgs) > 0 {
@@ -102,4 +88,22 @@ func main() {
 	if err != nil {
 		abort(err.Error(), false)
 	}
+}
+
+func main() {
+	flag.Usage = printUsage
+	version := flag.Bool("version", false, "ignore all other arguments, print the left version and exit")
+	dumpConfig := flag.Bool("dump-config", false, "dumps the standard config to stdout")
+	customConfig := flag.String("config", "", "custom config file to read from after loading configuration defaults")
+	create := flag.Bool("create", false, "prints a template for a new letter to stdout")
+
+	flag.Parse()
+
+	if *version {
+		fmt.Println(Version())
+		os.Exit(0)
+	}
+	remainingArgs := os.Args[len(os.Args)-flag.NArg():]
+
+	Run(customConfig, dumpConfig, create, remainingArgs)
 }
