@@ -29,7 +29,7 @@ func TestReadMinimalConfigFromFile(t *testing.T) {
 	var fontImport *FontImport = nil
 	var nilSlice []string
 	var nilStringPtr *string
-	_ = loadConfigFromFile("./test/valid_config_minimal.json", &read)
+	_ = loadConfigFromFile("./test/config/valid_config_minimal.json", &read)
 	AssertEquals(t, read.FontName, "", "FontName")
 	AssertEquals(t, read.FontImport, fontImport, "FontImport")
 	AssertEquals(t, read.FontSize, float64(0), "FontSize")
@@ -51,7 +51,7 @@ func TestReadMinimalConfigFromFile(t *testing.T) {
 
 func TestReadFullConfigFromFile(t *testing.T) {
 	read := Config{}
-	_ = loadConfigFromFile("./test/valid_config_full.json", &read)
+	_ = loadConfigFromFile("./test/config/valid_config_full.json", &read)
 	AssertEquals(t, read.FontName, "someFontName", "FontName")
 	AssertEquals(t, read.FontImport.Name, "myfont", "FontImport.Name")
 	AssertEquals(t, read.FontImport.Directory, "/usr/share/fonts/myfont", "FontImport.Directory")
