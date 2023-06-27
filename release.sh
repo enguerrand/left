@@ -11,6 +11,7 @@ function abort(){
 
 export GOOARCH="amd64"
 cd "$(dirname "${0}")"
+go test
 rm -rf build/*
 go generate
 version="$(cat dynamic-assets/version.txt)"
