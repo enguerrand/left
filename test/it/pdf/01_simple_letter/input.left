@@ -20,7 +20,7 @@
     "12345 Center City"
   ],
   "SenderName": "The Guy Who Wrote This",
-  "Signature": "./test/it/Signature.jpg"
+  "Signature": "./test/it/pdf/Signature.jpg"
 }
 // address
 Mr Random Guy

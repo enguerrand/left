@@ -30,8 +30,8 @@ import (
 /*
 This test depends on diff-pdf being present (https://vslavik.github.io/diff-pdf/)
 */
-func TestAllReferencePdfs(t *testing.T) {
-	resDir := "./test/it/"
+func TestPdfCreation(t *testing.T) {
+	resDir := "./test/it/pdf"
 	files, err := os.ReadDir(resDir)
 	if err != nil {
 		t.Errorf("Could not read test resources: %s", err.Error())
@@ -61,6 +61,46 @@ func TestAllReferencePdfs(t *testing.T) {
 				t.Errorf("Created pdf %s did not match the reference: %s. To compare, run:\n\ndiff-pdf --view %s %s\n\n", outfile, reference, outfile, reference)
 			} else {
 				_ = os.Remove(outfile)
+			}
+		}
+	}
+}
+
+func TestCreate(t *testing.T) {
+	resDir := "./test/it/create"
+	files, err := os.ReadDir(resDir)
+	if err != nil {
+		t.Errorf("Could not read test resources: %s", err.Error())
+	}
+	for _, file := range files {
+		if file.IsDir() {
+
+			reference := filepath.Join(resDir, file.Name(), "expect.left")
+			expected, err := os.ReadFile(reference)
+			if err != nil {
+				t.Errorf("Failed to load expect.left: " + err.Error())
+			}
+			configPaths := []string{}
+			index := 0
+			for {
+				index++
+				config := filepath.Join(resDir, file.Name(), fmt.Sprintf("config_%d.json", index))
+				if _, err := os.Stat(config); err == nil {
+					configPaths = append(configPaths, config)
+				} else {
+					break
+				}
+			}
+			loadedDefaultConfig, err := loadDefaultConfig(configPaths)
+			if err != nil {
+				t.Errorf("Failed to load config: " + err.Error())
+			}
+			emptyLetter, err := createEmptyLetter(loadedDefaultConfig)
+			if err != nil {
+				t.Errorf("Failed to create empty letter: " + err.Error())
+			}
+			if string(expected) != emptyLetter {
+				t.Errorf(fmt.Sprintf("Created empty letter does not the match the result. Expected:\n%s, wanted:\n%s", expected, emptyLetter))
 			}
 		}
 	}
