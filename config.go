@@ -115,28 +115,32 @@ func loadConfigFromFile(configPath string, dest *Config) error {
 	}
 }
 
-func loadDefaultConfig(customConfigFilePath string) (Config, error) {
-	result := defaultConfig
-	var err error
-	if //goland:noinspection GoBoolExpressions
-	runtime.GOOS == "linux" {
-		err = loadConfigFromFile("/etc/left/defaults.json", &result)
-		if err != nil {
-			return result, err
-		}
+func GetConfigFilePaths(goos string, customConfigFilePath string) []string {
+	var paths []string
+	if goos == "linux" {
+		paths = append(paths, "/etc/left/defaults.json")
 	}
 	userDir, err := os.UserConfigDir()
 	if err != nil {
 		//goland:noinspection GoUnhandledErrorResult
 		fmt.Fprintf(os.Stderr, "Could not read user config: %s\n", err)
 	} else {
-		err = loadConfigFromFile(path.Join(userDir, "left", "defaults.json"), &result)
-		if err != nil {
-			return result, err
-		}
+		paths = append(paths, path.Join(userDir, "left", "defaults.json"))
 	}
 	if customConfigFilePath != "" {
-		err = loadConfigFromFile(customConfigFilePath, &result)
+		paths = append(paths, customConfigFilePath)
+	}
+	return paths
+}
+
+func loadDefaultConfig(customConfigFilePath string) (Config, error) {
+	result := defaultConfig
+	var err error
+
+	pathsToRead := GetConfigFilePaths(runtime.GOOS, customConfigFilePath)
+
+	for _, path := range pathsToRead {
+		err = loadConfigFromFile(path, &result)
 		if err != nil {
 			return result, err
 		}
