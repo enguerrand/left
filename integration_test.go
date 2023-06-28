@@ -20,6 +20,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -39,15 +40,21 @@ func TestAllReferencePdfs(t *testing.T) {
 		if file.IsDir() {
 			outfile := filepath.Join(resDir, file.Name(), "input.pdf")
 			reference := filepath.Join(resDir, file.Name(), "reference.pdf")
-			defaultConfig := filepath.Join(resDir, file.Name(), "defaults.json")
 			_ = os.Remove(outfile)
 			inputFile := filepath.Join(resDir, file.Name(), "input.left")
 			f := false
-			customConfig := ""
-			if _, err := os.Stat(defaultConfig); err == nil {
-				customConfig = defaultConfig
+			configPaths := []string{}
+			index := 0
+			for {
+				index++
+				config := filepath.Join(resDir, file.Name(), fmt.Sprintf("config_%d.json", index))
+				if _, err := os.Stat(config); err == nil {
+					configPaths = append(configPaths, config)
+				} else {
+					break
+				}
 			}
-			Run(&customConfig, &f, &f, []string{inputFile})
+			Run(configPaths, &f, &f, []string{inputFile})
 
 			cmd := exec.Command("diff-pdf", outfile, reference)
 			if err := cmd.Run(); err != nil {

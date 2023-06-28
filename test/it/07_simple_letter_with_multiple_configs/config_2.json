@@ -1,0 +1,22 @@
+{
+  "FontName": "freeserif",
+  "FontImport": null,
+  "FontSize": 15,
+  "FontSizeSender": 9,
+  "FontSizeAddress": 12,
+  "LineHeight": 10,
+  "LineHeightAddress": 10,
+  "AddressSectionX": 32,
+  "AddressSectionY": 72,
+  "AddressSectionW": 68,
+  "DateY": 120,
+  "Margins": 32,
+  "DatePrefix": "West City, ",
+  "Sender": [
+    "T. Guy",
+    "Left Here",
+    "12345 West City"
+  ],
+  "SenderName": "Somebody",
+  "Signature": "./test/it/Signature2.jpg"
+}

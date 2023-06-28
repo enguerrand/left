@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"os"
 	"path"
-	"runtime"
 	"time"
 )
 
@@ -133,14 +132,12 @@ func GetConfigFilePaths(goos string, customConfigFilePath string) []string {
 	return paths
 }
 
-func loadDefaultConfig(customConfigFilePath string) (Config, error) {
+func loadDefaultConfig(pathsToRead []string) (Config, error) {
 	result := defaultConfig
 	var err error
 
-	pathsToRead := GetConfigFilePaths(runtime.GOOS, customConfigFilePath)
-
-	for _, path := range pathsToRead {
-		err = loadConfigFromFile(path, &result)
+	for _, configPath := range pathsToRead {
+		err = loadConfigFromFile(configPath, &result)
 		if err != nil {
 			return result, err
 		}

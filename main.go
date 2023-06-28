@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime"
 )
 
 func abort(message string, invocationError bool) {
@@ -58,8 +59,8 @@ func printUsage() {
 	flag.PrintDefaults()
 }
 
-func Run(customConfig *string, dumpConfig *bool, create *bool, remainingArgs []string) {
-	loadedDefaultConfig, err := loadDefaultConfig(*customConfig)
+func Run(pathsToRead []string, dumpConfig *bool, create *bool, remainingArgs []string) {
+	loadedDefaultConfig, err := loadDefaultConfig(pathsToRead)
 	if err != nil {
 		abort(err.Error(), false)
 	}
@@ -105,5 +106,7 @@ func main() {
 	}
 	remainingArgs := os.Args[len(os.Args)-flag.NArg():]
 
-	Run(customConfig, dumpConfig, create, remainingArgs)
+	configPathsToRead := GetConfigFilePaths(runtime.GOOS, *customConfig)
+
+	Run(configPathsToRead, dumpConfig, create, remainingArgs)
 }
