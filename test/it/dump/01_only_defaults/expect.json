@@ -1,0 +1,19 @@
+{
+  "FontName": "dejavusanscondensed",
+  "FontImport": null,
+  "FontSize": 12,
+  "FontSizeSender": 7,
+  "FontSizeAddress": 10,
+  "LineHeight": 8,
+  "LineHeightAddress": 6,
+  "AddressSectionX": 25,
+  "AddressSectionY": 50,
+  "AddressSectionW": 70,
+  "DateY": 100,
+  "Margins": 25,
+  "DatePrefix": "",
+  "Date": "28.06.2023",
+  "Sender": [],
+  "SenderName": null,
+  "Signature": null
+}

@@ -100,7 +100,47 @@ func TestCreate(t *testing.T) {
 				t.Errorf("Failed to create empty letter: " + err.Error())
 			}
 			if string(expected) != emptyLetter {
-				t.Errorf(fmt.Sprintf("Created empty letter does not the match the result. Expected:\n%s, wanted:\n%s", expected, emptyLetter))
+				t.Errorf(fmt.Sprintf("Created empty letter does not the match the result. Expected:\n%s\n\n Created:\n%s", expected, emptyLetter))
+			}
+		}
+	}
+}
+
+func TestDump(t *testing.T) {
+	resDir := "./test/it/dump"
+	files, err := os.ReadDir(resDir)
+	if err != nil {
+		t.Errorf("Could not read test resources: %s", err.Error())
+	}
+	for _, file := range files {
+		if file.IsDir() {
+
+			reference := filepath.Join(resDir, file.Name(), "expect.json")
+			expected, err := os.ReadFile(reference)
+			if err != nil {
+				t.Errorf("Failed to load expect.json: " + err.Error())
+			}
+			configPaths := []string{}
+			index := 0
+			for {
+				index++
+				config := filepath.Join(resDir, file.Name(), fmt.Sprintf("config_%d.json", index))
+				if _, err := os.Stat(config); err == nil {
+					configPaths = append(configPaths, config)
+				} else {
+					break
+				}
+			}
+			loadedDefaultConfig, err := loadDefaultConfig(configPaths)
+			if err != nil {
+				t.Errorf("Failed to load config: " + err.Error())
+			}
+			emptyLetter, err := printConfiguration(loadedDefaultConfig)
+			if err != nil {
+				t.Errorf("Failed to dump configuration: " + err.Error())
+			}
+			if string(expected) != emptyLetter {
+				t.Errorf(fmt.Sprintf("Dumped configuration does not the match the result. Expected:\n%s \n\n Dumped:\n%s", expected, emptyLetter))
 			}
 		}
 	}
