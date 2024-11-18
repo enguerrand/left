@@ -221,9 +221,9 @@ func render(inputFile string, defaultConfig Config) error {
 	if config.GetSignatureOrEmpty() != "" {
 		var opt fpdf.ImageOptions
 		opt.ImageType = "jpg"
-		pdf.ImageOptions(config.GetSignatureOrEmpty(), pdf.GetX(), pdf.GetY(), 0, 0, false, opt, 0, "")
+		pdf.ImageOptions(config.GetSignatureOrEmpty(), pdf.GetX(), pdf.GetY(), 0, 0, true, opt, 0, "")
 	}
-	pdf.Ln(config.LineHeight * 3)
+	pdf.Ln(config.LineHeight)
 	pdf.MultiCell(0, config.LineHeight, config.GetSenderNameOrEmpty(), "", "L", false)
 
 	pdfErr := pdf.OutputFileAndClose(strings.TrimSuffix(inputFile, filepath.Ext(inputFile)) + ".pdf")
