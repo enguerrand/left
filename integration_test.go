@@ -24,7 +24,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
+	"time"
 )
 
 /*
@@ -99,8 +101,8 @@ func TestCreate(t *testing.T) {
 			if err != nil {
 				t.Errorf("Failed to create empty letter: " + err.Error())
 			}
-			if string(expected) != emptyLetter {
-				t.Errorf(fmt.Sprintf("Created empty letter does not the match the result. Expected:\n%s\n\n Created:\n%s", expected, emptyLetter))
+			if replaceToday(string(expected)) != emptyLetter {
+				t.Errorf(fmt.Sprintf("Created empty letter %s does not the match the result. Expected:\n%s\n\n Created:\n%s", file.Name(), expected, emptyLetter))
 			}
 		}
 	}
@@ -139,9 +141,14 @@ func TestDump(t *testing.T) {
 			if err != nil {
 				t.Errorf("Failed to dump configuration: " + err.Error())
 			}
-			if string(expected) != emptyLetter {
-				t.Errorf(fmt.Sprintf("Dumped configuration does not the match the result. Expected:\n%s \n\n Dumped:\n%s", expected, emptyLetter))
+			if replaceToday(string(expected)) != emptyLetter {
+				t.Errorf(fmt.Sprintf("Dumped configuration %s does not the match the result. Expected:\n%s \n\n Dumped:\n%s", file.Name(), expected, emptyLetter))
 			}
 		}
 	}
+}
+
+func replaceToday(letterText string) string {
+	today := time.Now().Format("02.01.2006")
+	return strings.Replace(letterText, "@@__TODAY__@@", today, -1)
 }

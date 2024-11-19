@@ -15,7 +15,7 @@ Config sections are started with a line that begins with //
   "DateY": 100,
   "Margins": 25,
   "DatePrefix": "",
-  "Date": "28.06.2023",
+  "Date": "@@__TODAY__@@",
   "Sender": [],
   "SenderName": null,
   "Signature": null
