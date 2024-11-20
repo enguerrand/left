@@ -1,0 +1,31 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.20'
+
+    - name: Install diff-pdf dependencies
+      run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libpoppler-glib-dev libwxgtk3.0-gtk3-dev
+
+    - name: Install diff-pdf
+      run: mkdir $HOME/diff-pdf && cd $HOME/diff-pdf && git clone --depth=1 https://github.com/vslavik/diff-pdf.git . && ./bootstrap && ./configure && make && sudo cp ./diff-pdf /usr/bin/
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
