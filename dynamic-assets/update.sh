@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 rm -f dynamic-assets/version.txt
-version=$(git tag --sort=committerdate --list '[0-9]*.[0-9]*'  | tail -n 1)
+version=$(git tag --list '[0-9]*.[0-9]*' | sort -V | tail -n 1)
 commit=$(git rev-parse --short HEAD)
 if [ -n "${version}" ]; then
   version_commit=$(git rev-list -n 1 "${version}")
