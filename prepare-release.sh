@@ -21,6 +21,10 @@ You may want to run one of the following commands to add a new version tag:
   git tag "${suggested_minor}"
   git tag "${suggested_patch}"
 
+Followed by:
+
+  git push --tags
+
 EOF
 }
 
